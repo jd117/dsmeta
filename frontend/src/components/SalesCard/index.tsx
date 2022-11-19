@@ -8,7 +8,6 @@ import NotificationButton from "../NotificationButton";
 import "./styles.css";
 
 function SalesCard() {
-
 	const min = new Date(new Date().setDate(new Date().getDate() - 365));
 	const max = new Date();
 
@@ -18,11 +17,11 @@ function SalesCard() {
 	const [sales, setSales] = useState<Sale[]>([]);
 
 	useEffect(() => {
-
 		const dmin = minDate.toISOString().slice(0, 10);
 		const dmax = maxDate.toISOString().slice(0, 10);
 
-		axios.get(`${BASE_URL}/sales?minDate=${dmin}&maxDate=${dmax}`)
+		axios
+			.get(`${BASE_URL}/sales?minDate=${dmin}&maxDate=${dmax}`)
 			.then((response) => {
 				setSales(response.data.content);
 			});
@@ -64,22 +63,24 @@ function SalesCard() {
 						</tr>
 					</thead>
 					<tbody>
-						{sales.map(sale => {
-								return (
-									<tr key={sale.id}>
-										<td className="show992">{sale.id}</td>
-										<td className="show576">{new Date(sale.date).toLocaleDateString()}</td>
-										<td>{sale.sellerName}</td>
-										<td className="show992">{sale.visited}</td>
-										<td className="show992">{sale.deals}</td>
-										<td>{sale.amount.toFixed(2)}</td>
-										<td>
-											<div className="dsmeta-red-btn-container">
-												<NotificationButton saleId={sale.id}/>
-											</div>
-										</td>
-									</tr>
-								)
+						{sales.map((sale) => {
+							return (
+								<tr key={sale.id}>
+									<td className="show992">{sale.id}</td>
+									<td className="show576">
+										{new Date(sale.date).toLocaleDateString()}
+									</td>
+									<td>{sale.sellerName}</td>
+									<td className="show992">{sale.visited}</td>
+									<td className="show992">{sale.deals}</td>
+									<td>{sale.amount.toFixed(2)}</td>
+									<td>
+										<div className="dsmeta-red-btn-container">
+											<NotificationButton saleId={sale.id} />
+										</div>
+									</td>
+								</tr>
+							);
 						})}
 					</tbody>
 				</table>
